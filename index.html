@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+<title>OmniDesk AI — Unified Business Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0D14;--bg2:#111520;--bg3:#161B2A;--bg4:#1C2235;
+  --border:#ffffff12;--border2:#ffffff1e;
+  --text:#F0F2F8;--text2:#8B93A8;--text3:#555E73;
+  --blue:#3B82F6;--blue-d:#1D4ED8;--blue-l:#93C5FD;--blue-bg:#1D4ED815;
+  --purple:#8B5CF6;--purple-bg:#8B5CF615;--purple-l:#C4B5FD;
+  --teal:#14B8A6;--teal-bg:#14B8A615;--teal-l:#5EEAD4;
+  --amber:#F59E0B;--amber-bg:#F59E0B15;--amber-l:#FCD34D;
+  --green:#22C55E;--green-bg:#22C55E15;--green-l:#86EFAC;
+  --red:#EF4444;--red-bg:#EF444415;--red-l:#FCA5A5;
+  --radius:10px;--radius-lg:14px;--radius-xl:18px;
+  --font:'Inter',sans-serif;--font-display:'Space Grotesk',sans-serif;
+  --shadow:0 4px 24px #00000040;--shadow-lg:0 8px 40px #00000060;
+}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;overflow:hidden}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+.app{display:flex;flex-direction:column;height:100vh}
+.topbar{display:flex;align-items:center;padding:0 20px;height:54px;background:var(--bg2);border-bottom:1px solid var(--border);gap:16px;flex-shrink:0;z-index:10}
+.brand{display:flex;align-items:center;gap:10px;margin-right:8px}
+.brand-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-logo i{font-size:17px;color:#fff}
+.brand-name{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text);white-space:nowrap}
+.brand-name span{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-tabs{display:flex;gap:2px;flex:1;justify-content:center}
+.nav-tab{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap}
+.nav-tab:hover{color:var(--text);background:var(--bg3)}
+.nav-tab.active{color:var(--blue-l);background:var(--blue-bg);border-color:#3B82F625}
+.nav-tab i{font-size:15px}
+.topbar-right{display:flex;align-items:center;gap:10px;margin-left:8px}
+.ai-pill{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;background:var(--green-bg);border:1px solid #22C55E30;font-size:12px;font-weight:500;color:var(--green-l)}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;cursor:pointer}
+.body{display:flex;flex:1;overflow:hidden}
+.sidebar{width:210px;min-width:210px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 10px;gap:2px;overflow-y:auto;flex-shrink:0}
+.sidebar-section{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:10px 8px 5px;margin-top:6px}
+.sidebar-section:first-child{margin-top:0}
+.sidebar-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;position:relative}
+.sidebar-item:hover{background:var(--bg3);color:var(--text)}
+.sidebar-item.active{background:var(--blue-bg);color:var(--blue-l)}
+.sidebar-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:var(--blue);border-radius:0 3px 3px 0}
+.sidebar-item i{font-size:16px}
+.sidebar-badge{margin-left:auto;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600}
+.badge-red{background:var(--red-bg);color:var(--red-l)}
+.badge-green{background:var(--green-bg);color:var(--green-l)}
+.badge-blue{background:var(--blue-bg);color:var(--blue-l)}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 4px}
+.content{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.view{display:none;flex-direction:column;flex:1;overflow:hidden}
+.view.active{display:flex}
+.dash-body{flex:1;overflow-y:auto;padding:22px 24px}
+.page-header{margin-bottom:20px}
+.page-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text)}
+.page-sub{font-size:13px;color:var(--text2);margin-top:3px}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.metric-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;position:relative;overflow:hidden;transition:border-color .2s}
+.metric-card:hover{border-color:var(--border2)}
+.metric-card::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:50%;opacity:.07;transform:translate(20px,-20px)}
+.metric-card.blue::after{background:var(--blue)}
+.metric-card.purple::after{background:var(--purple)}
+.metric-card.teal::after{background:var(--teal)}
+.metric-card.amber::after{background:var(--amber)}
+.metric-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.metric-icon.blue{background:var(--blue-bg)} .metric-icon.blue i{color:var(--blue-l)}
+.metric-icon.purple{background:var(--purple-bg)} .metric-icon.purple i{color:var(--purple-l)}
+.metric-icon.teal{background:var(--teal-bg)} .metric-icon.teal i{color:var(--teal-l)}
+.metric-icon.amber{background:var(--amber-bg)} .metric-icon.amber i{color:var(--amber-l)}
+.metric-icon i{font-size:18px}
+.metric-val{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--text)}
+.metric-label{font-size:12px;color:var(--text2);margin-top:2px}
+.metric-delta{font-size:11px;margin-top:6px;display:flex;align-items:center;gap:4px}
+.delta-up{color:var(--green-l)} .delta-dn{color:var(--red-l)}
+.dash-panels{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
+.panel-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.panel-title i{font-size:16px;color:var(--text2)}
+.ticket-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.ticket-item:last-child{border-bottom:none}
+.ticket-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-open{background:var(--amber)} .dot-done{background:var(--green)}
+.ticket-cat{padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600}
+.cat-s{background:var(--blue-bg);color:var(--blue-l)}
+.cat-sp{background:var(--purple-bg);color:var(--purple-l)}
+.cat-c{background:var(--teal-bg);color:var(--teal-l)}
+.cat-o{background:var(--amber-bg);color:var(--amber-l)}
+.ticket-text{flex:1;font-size:12px;color:var(--text)}
+.ticket-time{font-size:11px;color:var(--text3)}
+.bar-item{display:flex;align-items:center;gap:9px;margin-bottom:10px;font-size:12px}
+.bar-lbl{width:72px;color:var(--text2);text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.bar-pct{width:30px;font-size:11px;color:var(--text3)}
+.chat-wrap{display:flex;flex:1;overflow:hidden}
+.conv-list{width:220px;min-width:220px;border-right:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;overflow:hidden}
+.conv-list-head{padding:14px 14px 10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.new-chat-btn{width:24px;height:24px;border-radius:7px;background:var(--blue-bg);border:1px solid #3B82F625;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.new-chat-btn:hover{background:var(--blue);border-color:var(--blue)}
+.new-chat-btn i{font-size:14px;color:var(--blue-l)}
+.new-chat-btn:hover i{color:#fff}
+.conv-scroll{flex:1;overflow-y:auto}
+.conv-item{padding:11px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.conv-item:hover{background:var(--bg3)}
+.conv-item.active{background:var(--blue-bg)}
+.conv-row1{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.conv-status{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.s-online{background:var(--green)} .s-away{background:var(--amber)} .s-offline{background:var(--text3)}
+.conv-name{font-size:13px;font-weight:600;color:var(--text);flex:1}
+.conv-time{font-size:10px;color:var(--text3)}
+.conv-preview{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conv-dept-tag{display:inline-block;padding:1px 6px;border-radius:6px;font-size:10px;font-weight:600;margin-top:3px}
+.chat-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.chat-header{padding:12px 18px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.chat-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.chat-header-info{flex:1}
+.chat-header-name{font-size:14px;font-weight:600;color:var(--text)}
+.chat-header-sub{font-size:11px;color:var(--text2);margin-top:1px}
+.chat-header-actions{display:flex;align-items:center;gap:8px}
+.hdr-badge{padding:4px 10px;border-radius:8px;font-size:11px;font-weight:600}
+.sentiment-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:600}
+.sent-pos{background:var(--green-bg);color:var(--green-l);border:1px solid #22C55E25}
+.sent-neu{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.sent-neg{background:var(--red-bg);color:var(--red-l);border:1px solid #EF444425}
+.escalate-bar{margin:10px 18px 0;padding:9px 13px;background:var(--amber-bg);border:1px solid #F59E0B30;border-radius:var(--radius);font-size:12px;color:var(--amber-l);display:none;align-items:center;gap:8px}
+.escalate-bar.show{display:flex}
+.escalate-bar i{font-size:15px;flex-shrink:0}
+.messages-area{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;flex-direction:column;max-width:75%}
+.msg.user{align-self:flex-end;align-items:flex-end}
+.msg.bot{align-self:flex-start;align-items:flex-start}
+.msg-row{display:flex;align-items:flex-end;gap:8px}
+.msg.bot .msg-row{flex-direction:row}
+.msg.user .msg-row{flex-direction:row-reverse}
+.bot-icon{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bot-icon i{font-size:13px;color:#fff}
+.bubble{padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.6;word-wrap:break-word;max-width:100%;overflow-wrap:break-word}
+.msg.user .bubble{background:linear-gradient(135deg,var(--blue-d),var(--blue));color:#fff;border-bottom-right-radius:4px}
+.msg.bot .bubble{background:var(--bg3);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px}
+.msg-meta{font-size:10px;color:var(--text3);margin-top:4px;padding:0 4px}
+.typing-bubble{background:var(--bg3);border:1px solid var(--border);border-radius:14px;border-bottom-left-radius:4px;padding:12px 16px;display:flex;gap:5px;align-items:center}
+.t-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);animation:tdot 1s infinite}
+.t-dot:nth-child(2){animation-delay:.2s} .t-dot:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.chips-bar{padding:8px 18px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border2);font-size:11px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;background:var(--bg2);white-space:nowrap}
+.chip:hover{background:var(--blue-bg);color:var(--blue-l);border-color:#3B82F625}
+.chat-input-bar{padding:12px 18px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:flex-end;gap:10px;flex-shrink:0}
+.dept-select{padding:7px 10px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;outline:none;font-family:var(--font)}
+.dept-select:focus{border-color:var(--blue)}
+.input-box{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:9px 13px;color:var(--text);font-size:13px;font-family:var(--font);resize:none;outline:none;min-height:38px;max-height:100px;line-height:1.5;transition:border-color .15s}
+.input-box::placeholder{color:var(--text3)}
+.input-box:focus{border-color:var(--blue)}
+.send-btn{width:38px;height:38px;border-radius:var(--radius);background:linear-gradient(135deg,var(--blue-d),var(--blue));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.send-btn:hover{opacity:.85;transform:scale(1.05)}
+.send-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.send-btn i{font-size:16px;color:#fff}
+.analytics-body{flex:1;overflow-y:auto;padding:22px 24px}
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.a-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
+.a-card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.a-card-title i{font-size:16px;color:var(--text2)}
+.stat-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:2px}
+.stat-box{text-align:center;padding:12px 6px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border)}
+.stat-num{font-family:var(--font-display);font-size:22px;font-weight:700}
+.stat-lbl{font-size:10px;color:var(--text2);margin-top:3px}
+.insight-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.insight-item:last-child{border-bottom:none}
+.insight-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.insight-icon i{font-size:15px}
+.insight-txt{font-size:12px;color:var(--text);line-height:1.6}
+.insight-txt strong{color:var(--text);font-weight:600}
+.bar-chart-wrap{height:90px;display:flex;align-items:flex-end;gap:5px;padding-bottom:18px;position:relative}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%}
+.bar-body{width:100%;border-radius:4px 4px 0 0;transition:height .6s cubic-bezier(.4,0,.2,1);min-height:3px}
+.bar-day{font-size:9px;color:var(--text3)}
+.settings-body{flex:1;overflow-y:auto;padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.s-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
+.s-section-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.s-section-title i{font-size:17px;color:var(--text2)}
+.s-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.s-row:last-child{border-bottom:none}
+.s-row-lbl{font-size:13px;font-weight:500;color:var(--text)}
+.s-row-desc{font-size:11px;color:var(--text2);margin-top:3px}
+.toggle{width:38px;height:22px;border-radius:11px;background:var(--blue);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.toggle.off{background:var(--bg4)}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;right:3px;transition:right .2s;box-shadow:0 1px 4px #0004}
+.toggle.off::after{right:auto;left:3px}
+.model-badge{padding:4px 10px;background:var(--purple-bg);border:1px solid #8B5CF625;border-radius:8px;font-size:11px;font-weight:600;color:var(--purple-l)}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:12px 16px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all .3s;z-index:999}
+.toast.show{transform:translateY(0);opacity:1}
+.toast i{font-size:17px}
+.loader-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s}
+.loader-screen.hide{opacity:0;pointer-events:none}
+.loader-logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:logopulse 1.5s ease-in-out infinite}
+@keyframes logopulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.loader-logo i{font-size:30px;color:#fff}
+.loader-title{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--text);margin-bottom:6px}
+.loader-sub{font-size:13px;color:var(--text2);margin-bottom:28px}
+.loader-bar-track{width:200px;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.loader-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:2px;animation:loadbar 1.8s ease-in-out forwards}
+@keyframes loadbar{0%{width:0%}70%{width:85%}100%{width:100%}}
+@media (max-width: 780px){.metrics-grid{grid-template-columns:1fr 1fr}.dash-panels{grid-template-columns:1fr}.sidebar{display:none}}
+</style>
+</head>
+<body>
+
+<div class="loader-screen" id="loader"><div class="loader-logo"><i class="ti ti-brain"></i></div><div class="loader-title">OmniDesk AI</div><div class="loader-sub">Neural sync · zero latency</div><div class="loader-bar-track"><div class="loader-bar"></div></div></div>
+<div class="toast" id="toast"><i class="ti ti-check" style="color:var(--green)"></i><span id="toast-msg">Done</span></div>
+
+<div class="app"><header class="topbar"><div class="brand"><div class="brand-logo"><i class="ti ti-brain"></i></div><div class="brand-name">Omni<span>Desk</span> AI</div></div><div class="nav-tabs"><div class="nav-tab active" onclick="gotoView('dashboard',this)"><i class="ti ti-layout-dashboard"></i> Dashboard</div><div class="nav-tab" onclick="gotoView('chat',this)"><i class="ti ti-messages"></i> Live Chat</div><div class="nav-tab" onclick="gotoView('analytics',this)"><i class="ti ti-chart-dots-3"></i> Analytics</div><div class="nav-tab" onclick="gotoView('settings',this)"><i class="ti ti-settings-2"></i> Settings</div></div><div class="topbar-right"><div class="ai-pill"><div class="ai-dot"></div>AI Online</div><div class="avatar">YO</div></div></header>
+
+<div class="body"><aside class="sidebar"><div class="sidebar-section">Channels</div>
+<div class="sidebar-item active" onclick="sideNav('all',this)"><i class="ti ti-layout-grid"></i>All Channels</div>
+<div class="sidebar-item" onclick="sideNav('sales',this)"><i class="ti ti-trending-up"></i>Sales Bot<span class="sidebar-badge badge-green">14</span></div>
+<div class="sidebar-item" onclick="sideNav('support',this)"><i class="ti ti-headset"></i>Support Bot<span class="sidebar-badge badge-red">6</span></div>
+<div class="sidebar-item" onclick="sideNav('care',this)"><i class="ti ti-heart-handshake"></i>Customer Care</div>
+<div class="sidebar-item" onclick="sideNav('open',this)"><i class="ti ti-bulb"></i>Open Innovation</div>
+<div class="sidebar-divider"></div><div class="sidebar-section">Insights</div>
+<div class="sidebar-item" onclick="gotoView('analytics',document.querySelectorAll('.nav-tab')[2])"><i class="ti ti-chart-bar"></i>Analytics</div>
+<div class="sidebar-item" onclick="gotoView('settings',document.querySelectorAll('.nav-tab')[3])"><i class="ti ti-adjustments-horizontal"></i>Configure</div>
+<div class="sidebar-divider"></div><div class="sidebar-section">System</div>
+<div class="sidebar-item"><i class="ti ti-bell"></i>Notifications<span class="sidebar-badge badge-blue">3</span></div>
+<div class="sidebar-item"><i class="ti ti-shield-check"></i>Security</div></aside>
+
+<div class="content">
+  <div class="view active" id="view-dashboard"><div class="dash-body"><div class="page-header"><div class="page-title">Business Intelligence Overview</div><div class="page-sub">Real-time AI metrics — live sentiment & resolution</div></div><div class="metrics-grid"><div class="metric-card blue"><div class="metric-icon blue"><i class="ti ti-messages"></i></div><div class="metric-val" id="m1">847</div><div class="metric-label">Total Conversations</div><div class="metric-delta delta-up"><i class="ti ti-trending-up"></i> +14% this week</div></div><div class="metric-card purple"><div class="metric-icon purple"><i class="ti ti-circle-check"></i></div><div class="metric-val" id="m2">91%</div><div class="metric-label">AI Resolution Rate</div><div class="metric-delta delta-up"><i class="ti ti-trending-up"></i> +3% vs last week</div></div><div class="metric-card teal"><div class="metric-icon teal"><i class="ti ti-clock-bolt"></i></div><div class="metric-val">1.2s</div><div class="metric-label">Avg Response Time</div><div class="metric-delta delta-up"><i class="ti ti-trending-down"></i> 0.3s faster</div></div><div class="metric-card amber"><div class="metric-icon amber"><i class="ti ti-star"></i></div><div class="metric-val">4.7</div><div class="metric-label">CSAT Score</div><div class="metric-delta delta-up"><i class="ti ti-trending-up"></i> +0.2 pts</div></div></div><div class="dash-panels"><div class="panel"><div class="panel-title"><i class="ti ti-activity"></i> Recent Conversations</div><div class="ticket-item"><div class="ticket-dot dot-open"></div><span class="ticket-cat cat-s">Sales</span><span class="ticket-text">Enterprise pricing inquiry for 50-seat team</span><span class="ticket-time">2m</span></div><div class="ticket-item"><div class="ticket-dot dot-done"></div><span class="ticket-cat cat-sp">Support</span><span class="ticket-text">Login issue resolved automatically by AI</span><span class="ticket-time">7m</span></div><div class="ticket-item"><div class="ticket-dot dot-open"></div><span class="ticket-cat cat-c">Care</span><span class="ticket-text">Refund request escalated to human agent</span><span class="ticket-time">12m</span></div><div class="ticket-item"><div class="ticket-dot dot-done"></div><span class="ticket-cat cat-s">Sales</span><span class="ticket-text">Product demo successfully scheduled</span><span class="ticket-time">18m</span></div><div class="ticket-item"><div class="ticket-dot dot-open"></div><span class="ticket-cat cat-o">Open</span><span class="ticket-text">AI-powered invoice automation idea</span><span class="ticket-time">25m</span></div></div><div class="panel"><div class="panel-title"><i class="ti ti-chart-donut"></i> Channel Distribution</div><div class="bar-item"><span class="bar-lbl">Sales</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:var(--blue)"></div></div><span class="bar-pct">62%</span></div><div class="bar-item"><span class="bar-lbl">Support</span><div class="bar-track"><div class="bar-fill" style="width:21%;background:var(--purple)"></div></div><span class="bar-pct">21%</span></div><div class="bar-item"><span class="bar-lbl">Care</span><div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--teal)"></div></div><span class="bar-pct">13%</span></div><div class="bar-item"><span class="bar-lbl">Open</span><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--amber)"></div></div><span class="bar-pct">4%</span></div><div style="margin-top:16px"><div class="panel-title"><i class="ti ti-mood-smile"></i> Sentiment Today</div><div class="bar-item"><span class="bar-lbl">Positive</span><div class="bar-track"><div class="bar-fill" style="width:71%;background:var(--green)"></div></div><span class="bar-pct">71%</span></div><div class="bar-item"><span class="bar-lbl">Neutral</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:#555E73"></div></div><span class="bar-pct">22%</span></div><div class="bar-item"><span class="bar-lbl">Negative</span><div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--red)"></div></div><span class="bar-pct">7%</span></div></div></div></div></div></div>
+
+  <div class="view" id="view-chat"><div class="chat-wrap"><div class="conv-list"><div class="conv-list-head">Conversations <button class="new-chat-btn" id="newConvBtn"><i class="ti ti-plus"></i></button></div><div class="conv-scroll" id="convListContainer"></div></div><div class="chat-main"><div class="chat-header"><div class="chat-avatar" id="ch-avatar">AM</div><div class="chat-header-info"><div class="chat-header-name" id="ch-name">Arjun Mehta</div><div class="chat-header-sub" id="ch-sub">Enterprise Sales Inquiry</div></div><div class="chat-header-actions"><span class="hdr-badge cat-s" id="ch-dept-badge">Sales Bot</span><span class="sentiment-chip sent-pos" id="sentiment-chip"><i class="ti ti-mood-smile"></i><span id="sent-label">Positive</span></span></div></div><div class="escalate-bar" id="escalate-bar"><i class="ti ti-alert-triangle"></i><span><strong>Auto-escalation triggered</strong> — Negative sentiment detected. Flagged for human review.</span></div><div class="messages-area" id="messages-area"></div><div class="chips-bar" id="chips-bar"></div><div class="chat-input-bar"><select class="dept-select" id="dept-select"><option value="sales">💼 Sales</option><option value="support">🛠 Support</option><option value="care">💛 Care</option><option value="open">💡 Open</option></select><textarea class="input-box" id="user-input" placeholder="Type a message… (Enter to send)" rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea><button class="send-btn" id="send-btn" onclick="sendMsg()"><i class="ti ti-send"></i></button></div></div></div></div>
+
+  <div class="view" id="view-analytics"><div class="analytics-body"><div class="page-header"><div class="page-title">AI Performance Analytics</div><div class="page-sub">Deep insights across all bot channels</div></div><div class="analytics-grid"><div class="a-card"><div class="a-card-title"><i class="ti ti-chart-bar"></i> Resolution by Channel</div><div class="bar-item"><span class="bar-lbl">Sales</span><div class="bar-track"><div class="bar-fill" style="width:94%;background:var(--blue)"></div></div><span class="bar-pct">94%</span></div><div class="bar-item"><span class="bar-lbl">Support</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:var(--purple)"></div></div><span class="bar-pct">88%</span></div><div class="bar-item"><span class="bar-lbl">Care</span><div class="bar-track"><div class="bar-fill" style="width:76%;background:var(--teal)"></div></div><span class="bar-pct">76%</span></div><div class="bar-item"><span class="bar-lbl">Open</span><div class="bar-track"><div class="bar-fill" style="width:61%;background:var(--amber)"></div></div><span class="bar-pct">61%</span></div></div><div class="a-card"><div class="a-card-title"><i class="ti ti-trending-up"></i> Weekly Volume</div><div class="bar-chart-wrap"><div class="bar-col"><div class="bar-body" style="height:70%;background:var(--blue);opacity:.7"></div><div class="bar-day">Mon</div></div><div class="bar-col"><div class="bar-body" style="height:55%;background:var(--blue);opacity:.7"></div><div class="bar-day">Tue</div></div><div class="bar-col"><div class="bar-body" style="height:85%;background:var(--blue);opacity:.7"></div><div class="bar-day">Wed</div></div><div class="bar-col"><div class="bar-body" style="height:60%;background:var(--blue);opacity:.7"></div><div class="bar-day">Thu</div></div><div class="bar-col"><div class="bar-body" style="height:100%;background:var(--blue)"></div><div class="bar-day">Fri</div></div><div class="bar-col"><div class="bar-body" style="height:42%;background:var(--text3)"></div><div class="bar-day">Sat</div></div><div class="bar-col"><div class="bar-body" style="height:28%;background:var(--text3)"></div><div class="bar-day">Sun</div></div></div></div><div class="a-card"><div class="a-card-title"><i class="ti ti-bulb"></i> AI Business Insights</div><div class="insight-item"><div class="insight-icon" style="background:var(--blue-bg)"><i class="ti ti-trending-up" style="color:var(--blue-l)"></i></div><div class="insight-txt"><strong>Sales efficiency +23%</strong> — AI pre-qualifies leads before human routing</div></div><div class="insight-item"><div class="insight-icon" style="background:var(--green-bg)"><i class="ti ti-clock" style="color:var(--green-l)"></i></div><div class="insight-txt"><strong>Handle time -67%</strong> — 8.4min → 2.8min with AI-first resolution</div></div><div class="insight-item"><div class="insight-icon" style="background:var(--amber-bg)"><i class="ti ti-alert-circle" style="color:var(--amber-l)"></i></div><div class="insight-txt"><strong>Auto-escalations active</strong> — real-time negative sentiment interception</div></div></div><div class="a-card"><div class="a-card-title"><i class="ti ti-mood-smile"></i> Sentiment Analysis</div><div class="stat-trio"><div class="stat-box"><div class="stat-num" style="color:var(--green-l)">71%</div><div class="stat-lbl">Positive</div></div><div class="stat-box"><div class="stat-num" style="color:var(--text2)">22%</div><div class="stat-lbl">Neutral</div></div><div class="stat-box"><div class="stat-num" style="color:var(--red-l)">7%</div><div class="stat-lbl">Negative</div></div></div><div style="font-size:12px;color:var(--text2);padding:10px;background:var(--bg3);border-radius:var(--radius);margin-top:12px"><i class="ti ti-info-circle" style="color:var(--blue-l)"></i> Real-time sentiment scanning reduces churn risk up to 40%.</div></div></div></div></div>
+
+  <div class="view" id="view-settings"><div class="settings-body"><div class="page-header"><div class="page-title">Platform Configuration</div><div class="page-sub">Customize AI behavior & automation</div></div><div class="s-section"><div class="s-section-title"><i class="ti ti-robot"></i> AI Model <span class="model-badge" style="margin-left:auto">omni-intelligence</span></div><div class="s-row"><div><div class="s-row-lbl">Real-Time Sentiment Analysis</div><div class="s-row-desc">Detect emotion & escalate threats</div></div><div class="toggle" onclick="toggleSwitch(this)"></div></div><div class="s-row"><div><div class="s-row-lbl">Smart Department Routing</div><div class="s-row-desc">Auto-route conversations</div></div><div class="toggle" onclick="toggleSwitch(this)"></div></div><div class="s-row"><div><div class="s-row-lbl">Auto-Escalation</div><div class="s-row-desc">Flag frustration to humans instantly</div></div><div class="toggle" onclick="toggleSwitch(this)"></div></div></div><div class="s-section"><div class="s-section-title"><i class="ti ti-layout-grid"></i> Active Channels</div><div class="s-row"><div><div class="s-row-lbl">Sales Bot · Lead qualification</div></div><div class="toggle" onclick="toggleSwitch(this)"></div></div><div class="s-row"><div><div class="s-row-lbl">Support Bot · Technical help</div></div><div class="toggle" onclick="toggleSwitch(this)"></div></div><div class="s-row"><div><div class="s-row-lbl">Customer Care · Refunds/complaints</div></div><div class="toggle" onclick="toggleSwitch(this)"></div></div></div></div></div>
+</div></div></div>
+
+<script>
+// --- enhanced mock AI (full offline, no API key required) ---
+const DEPT_PROMPTS = {
+  sales:{label:'Sales Bot',cls:'cat-s',avatar:'AM',chips:['Enterprise pricing','Schedule a demo','Compare plans','Talk to sales']},
+  support:{label:'Support Bot',cls:'cat-sp',avatar:'PS',chips:['Reset password','API docs','Billing issue','Feature broken']},
+  care:{label:'Customer Care',cls:'cat-c',avatar:'RG',chips:['Track order','Request refund','Cancel subscription','Speak to human']},
+  open:{label:'Open Innov.',cls:'cat-o',avatar:'SP',chips:['AI automation ideas','Build a bot','Innovation roadmap','Problem solving']}
+};
+
+let conversations = [
+  {id:0, name:'Arjun Mehta', sub:'Enterprise Sales · #4821', dept:'sales', status:'online', time:'now', preview:'Hi, I need help with pricing...', history:[{role:'user', content:'Hi! I need pricing info for a 50-person enterprise team.'}]},
+  {id:1, name:'Priya Sharma', sub:'Support Ticket #7732', dept:'support', status:'away', time:'4m', preview:'My order hasn\'t arrived yet', history:[{role:'user', content:'My order hasn\'t arrived after 5 days. Can you help?'}]},
+  {id:2, name:'Rahul Gupta', sub:'Care Request #2291', dept:'care', status:'online', time:'11m', preview:'I want a refund, this is awful', history:[{role:'user', content:'I want a refund. This product is terrible and I\'m very disappointed.'}]},
+  {id:3, name:'Sneha Patel', sub:'Innovation Session #0041', dept:'open', status:'offline', time:'22m', preview:'What AI solutions can help us?', history:[{role:'user', content:'What kind of AI automation can help a mid-size e-commerce business?'}]}
+];
+let currentConvId = 0;
+let botPending = false;
+
+function simulateAIResponse(dept, userMsg, history) {
+  const msg = userMsg.toLowerCase();
+  if (dept === 'sales') {
+    if (msg.includes('pricing') || msg.includes('cost') || msg.includes('price')) return "Our Enterprise plan starts at $29/seat/month with volume discounts. Would you like a custom quote and a live demo walkthrough?";
+    if (msg.includes('demo')) return "Absolutely! I can arrange a tailored demo with our solution engineers. What time zone works best for your team?";
+    if (msg.includes('feature') || msg.includes('compare')) return "OmniDesk includes advanced AI routing, real-time sentiment, and full analytics. Compared to competitors, our resolution rate is 30% higher.";
+    return "Great question! OmniDesk AI unifies sales & support. Could you share your main business challenge? I'll tailor insights for you.";
+  } else if (dept === 'support') {
+    if (msg.includes('reset') || msg.includes('password')) return "You can reset your password via the login page → 'Forgot password'. I can send a recovery link to your registered email, just confirm it.";
+    if (msg.includes('api')) return "Our API docs are available at docs.omnidesk.ai. I can also share a Postman collection. What specific endpoint do you need?";
+    if (msg.includes('billing')) return "Let me pull up your billing details. Could you provide the email on your account? I'll check invoice status.";
+    return "I'm here to troubleshoot! Please describe the issue in detail, and I'll guide you step-by-step.";
+  } else if (dept === 'care') {
+    if (msg.includes('refund')) return "I understand your frustration. Please share your order ID and reason — I'll initiate the refund process within minutes and ensure you're fully assisted.";
+    if (msg.includes('track')) return "Of course. Provide your order number, and I'll share live tracking status with estimated delivery.";
+    if (msg.includes('complaint') || msg.includes('terrible')) return "I sincerely apologize for this experience. Let me make it right: I'll escalate this to a senior care specialist immediately. Would you prefer a call or email?";
+    return "I'm sorry you're facing this. I'll personally ensure your concern is resolved with top priority. Tell me more details?";
+  } else {
+    if (msg.includes('e-commerce') || msg.includes('automation')) return "For e-commerce, AI can automate returns, predict inventory, and personalize support. We've seen 40% reduction in manual tickets. Want a deep dive?";
+    if (msg.includes('idea')) return "Love the creativity! Describe your vision and I'll help map AI capabilities to your use case, from chatbots to workflow automation.";
+    return "That's a powerful area! AI unlocks hidden efficiencies. Could you share which business process feels most repetitive? I'll suggest specific automations.";
+  }
+}
+
+async function fetchBotReplyMock() {
+  if (botPending) return;
+  const conv = conversations.find(c => c.id === currentConvId);
+  if (!conv) return;
+  const dept = conv.dept;
+  const lastMsg = conv.history.filter(m => m.role === 'user').pop();
+  if (!lastMsg) return;
+  botPending = true;
+  document.getElementById('send-btn').disabled = true;
+  showTyping();
+  await new Promise(r => setTimeout(r, 680));
+  removeTyping();
+  const reply = simulateAIResponse(dept, lastMsg.content, conv.history);
+  conv.history.push({role:'assistant', content: reply});
+  renderMessages();
+  updateSentimentUI();
+  botPending = false;
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('user-input').focus();
+}
+
+function renderConvList() {
+  const container = document.getElementById('convListContainer');
+  container.innerHTML = conversations.map(c => `<div class="conv-item ${c.id === currentConvId ? 'active' : ''}" onclick="loadConversation(${c.id})"><div class="conv-row1"><div class="conv-status s-${c.status}"></div><div class="conv-name">${escapeHtml(c.name)}</div><div class="conv-time">${c.time}</div></div><div class="conv-preview">${escapeHtml(c.preview)}</div><span class="conv-dept-tag ${DEPT_PROMPTS[c.dept].cls}">${DEPT_PROMPTS[c.dept].label}</span></div>`).join('');
+}
+
+function loadConversation(id) {
+  if (botPending) return;
+  currentConvId = id;
+  const conv = conversations.find(c => c.id === id);
+  if (!conv) return;
+  document.getElementById('ch-name').innerText = conv.name;
+  document.getElementById('ch-sub').innerText = conv.sub;
+  const meta = DEPT_PROMPTS[conv.dept];
+  document.getElementById('ch-avatar').innerText = meta.avatar;
+  document.getElementById('ch-avatar').style.background = `linear-gradient(135deg, var(--blue), var(--purple))`;
+  const badge = document.getElementById('ch-dept-badge');
+  badge.className = `hdr-badge ${meta.cls}`;
+  badge.innerText = meta.label;
+  document.getElementById('dept-select').value = conv.dept;
+  renderChips(conv.dept);
+  renderMessages();
+  updateSentimentUI();
+  renderConvList();
+}
+
+function renderMessages() {
+  const area = document.getElementById('messages-area');
+  const conv = conversations.find(c => c.id === currentConvId);
+  if (!conv) return;
+  area.innerHTML = '';
+  conv.history.forEach(msg => {
+    const div = document.createElement('div');
+    div.className = `msg ${msg.role === 'user' ? 'user' : 'bot'}`;
+    const timeStr = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    if (msg.role === 'user') {
+      div.innerHTML = `<div class="msg-row"><div class="bubble">${escapeHtml(msg.content)}</div></div><div class="msg-meta">You · ${timeStr}</div>`;
+    } else {
+      div.innerHTML = `<div class="msg-row"><div class="bot-icon"><i class="ti ti-brain"></i></div><div class="bubble">${escapeHtml(msg.content)}</div></div><div class="msg-meta">OmniDesk AI · ${timeStr}</div>`;
+    }
+    area.appendChild(div);
+  });
+  area.scrollTop = area.scrollHeight;
+}
+
+function updateSentimentUI() {
+  const conv = conversations.find(c => c.id === currentConvId);
+  if (!conv) return;
+  const texts = conv.history.map(m => m.content);
+  const combined = texts.join(' ').toLowerCase();
+  const negWords = ['terrible','awful','worst','hate','furious','angry','frustrated','disappointed','refund','broken','useless','scam','horrible'];
+  const posWords = ['great','excellent','amazing','wonderful','love','fantastic','thank','helpful','awesome'];
+  let negScore = negWords.filter(w => combined.includes(w)).length;
+  let posScore = posWords.filter(w => combined.includes(w)).length;
+  let sentiment = 'neutral';
+  if (negScore > posScore && negScore > 0) sentiment = 'negative';
+  else if (posScore > 0) sentiment = 'positive';
+  const chip = document.getElementById('sentiment-chip');
+  const lbl = document.getElementById('sent-label');
+  chip.className = `sentiment-chip ${sentiment === 'positive' ? 'sent-pos' : sentiment === 'negative' ? 'sent-neg' : 'sent-neu'}`;
+  lbl.innerText = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
+  const iconMap = {positive:'ti-mood-smile', neutral:'ti-mood-neutral', negative:'ti-mood-sad'};
+  chip.querySelector('i').className = `ti ${iconMap[sentiment]}`;
+  const escalate = document.getElementById('escalate-bar');
+  escalate.classList.toggle('show', sentiment === 'negative');
+}
+
+function renderChips(dept) {
+  const chipsList = DEPT_PROMPTS[dept]?.chips || [];
+  const bar = document.getElementById('chips-bar');
+  bar.innerHTML = chipsList.map(c => `<div class="chip" onclick="useChip('${escapeHtml(c)}')">${escapeHtml(c)}</div>`).join('');
+}
+
+function useChip(text) { document.getElementById('user-input').value = text; sendMsg(); }
+function autoGrow(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
+function handleKey(e) { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMsg(); } }
+function showToast(msg) { const t=document.getElementById('toast'); document.getElementById('toast-msg').innerText=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+function toggleSwitch(el){ el.classList.toggle('off'); showToast(el.classList.contains('off')?'Setting disabled':'Setting enabled'); }
+
+async function sendMsg() {
+  if (botPending) return;
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; autoGrow(input);
+  const conv = conversations.find(c => c.id === currentConvId);
+  if (!conv) return;
+  conv.history.push({role:'user', content: text});
+  renderMessages();
+  updateSentimentUI();
+  const newDept = document.getElementById('dept-select').value;
+  if (conv.dept !== newDept) {
+    conv.dept = newDept;
+    const meta = DEPT_PROMPTS[newDept];
+    document.getElementById('ch-dept-badge').className = `hdr-badge ${meta.cls}`;
+    document.getElementById('ch-dept-badge').innerText = meta.label;
+    document.getElementById('ch-avatar').innerText = meta.avatar;
+    renderChips(newDept);
+    renderConvList();
+  }
+  await fetchBotReplyMock();
+  renderConvList();
+  const lastMsg = conv.history[conv.history.length-1];
+  if (lastMsg && lastMsg.role === 'assistant') conv.preview = lastMsg.content.substring(0,40);
+  else conv.preview = text.substring(0,40);
+  renderConvList();
+}
+
+function addNewConversation() {
+  const newId = Date.now();
+  const newName = `Guest_${Math.floor(Math.random()*1000)}`;
+  const newConv = { id:newId, name:newName, sub:'New conversation', dept:'sales', status:'online', time:'now', preview:'Hi! I need assistance', history:[{role:'user', content:'Hi! I need assistance with your platform.'}] };
+  conversations.unshift(newConv);
+  renderConvList();
+  loadConversation(newId);
+  setTimeout(()=> fetchBotReplyMock(), 200);
+  showToast('New conversation started');
+}
+
+function gotoView(name, el) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(`view-${name}`).classList.add('active');
+  if(el) el.classList.add('active');
+}
+function sideNav(dept, el) {
+  document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  gotoView('chat', document.querySelectorAll('.nav-tab')[1]);
+  if(dept !== 'all') {
+    const idxMap = {sales:0, support:1, care:2, open:3};
+    const idx = idxMap[dept];
+    if(idx !== undefined && conversations[idx]) loadConversation(conversations[idx].id);
+  }
+}
+function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+let typingEl = null;
+function showTyping() { const area=document.getElementById('messages-area'); if(document.getElementById('typing-ind')) return; const d=document.createElement('div'); d.className='msg bot'; d.id='typing-ind'; d.innerHTML=`<div class="msg-row"><div class="bot-icon"><i class="ti ti-brain"></i></div><div class="typing-bubble"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div></div></div>`; area.appendChild(d); area.scrollTop=area.scrollHeight; }
+function removeTyping() { const t=document.getElementById('typing-ind'); if(t) t.remove(); }
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1500);
+  renderConvList();
+  loadConversation(0);
+  document.getElementById('dept-select').addEventListener('change', (e)=>{
+    const conv = conversations.find(c=>c.id===currentConvId);
+    if(conv) { conv.dept = e.target.value; renderChips(conv.dept); const meta = DEPT_PROMPTS[conv.dept]; document.getElementById('ch-dept-badge').className = `hdr-badge ${meta.cls}`; document.getElementById('ch-dept-badge').innerText = meta.label; document.getElementById('ch-avatar').innerText = meta.avatar; renderConvList(); }
+  });
+  document.getElementById('newConvBtn').addEventListener('click', addNewConversation);
+  let counter=847;
+  setInterval(()=>{ const m1=document.getElementById('m1'); if(m1 && document.getElementById('view-dashboard').classList.contains('active')){ counter++; m1.innerText=counter; } }, 9000);
+});
+</script>
+</body>
+</html>
