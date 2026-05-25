@@ -219,10 +219,10 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 👨‍💻 Author
 
-**Your Name**
-- LinkedIn: [linkedin.com/in/yourprofile](#)
-- GitHub: [github.com/yourusername](#)
-- Email: your@email.com
+**Suryandu Ganguly**
+- LinkedIn: [https://www.linkedin.com/in/suryandu-ganguly01/](#)
+- GitHub: [https://github.com/suryandugy-glitch/omniDesk-ai](#)
+- Email: suryandugy@gmail.com
 
 ---
 
@@ -232,4 +232,4 @@ If you found this project useful or impressive, please consider giving it a **�
 
 ---
 
-*Built with ❤️ and powered by Anthropic Claude AI*
+*Built with ❤️*
