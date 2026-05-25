@@ -20,8 +20,8 @@ Powered by the **Anthropic Claude API**, OmniDesk dynamically shifts its persona
 
 ## 🚀 Live Demo
 
-🌐 **[View Live Project →](#)**
-📹 **[Watch Demo Video →](#)**
+🌐 **[View Live Project →](https://suryandugy-glitch.github.io/omniDesk-ai/)**
+📹 **[Watch Demo Video →](https://www.loom.com/share/9932fa4fefce433093098a8829c8a9d0)**
 
 ---
 
