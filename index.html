@@ -290,23 +290,41 @@ async function fetchBotReplyMock() {
   if (botPending) return;
   const conv = conversations.find(c => c.id === currentConvId);
   if (!conv) return;
-  const dept = conv.dept;
   const lastMsg = conv.history.filter(m => m.role === 'user').pop();
   if (!lastMsg) return;
   botPending = true;
   document.getElementById('send-btn').disabled = true;
   showTyping();
-  await new Promise(r => setTimeout(r, 680));
-  removeTyping();
-  const reply = simulateAIResponse(dept, lastMsg.content, conv.history);
+  let reply, source = 'DEMO';
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({department: conv.dept, messages: conv.history.slice(-16).map(m => ({role: m.role, content: m.content}))})
+    });
+    if (response.ok) {
+      const result = await response.json();
+      reply = result.reply;
+      source = 'LIVE AI';
+    }
+  } catch {
+    // GitHub Pages and offline previews have no same-origin server.
+  } finally {
+    removeTyping();
+  }
+  if (!reply) {
+    reply = simulateAIResponse(conv.dept, lastMsg.content, conv.history);
+    showToast('Demo responses only — deploy with an Anthropic backend for live AI.');
+  }
   conv.history.push({role:'assistant', content: reply});
   renderMessages();
   updateSentimentUI();
   botPending = false;
   document.getElementById('send-btn').disabled = false;
   document.getElementById('user-input').focus();
+  const indicator = document.getElementById('ai-mode-indicator');
+  if (indicator) indicator.textContent = source;
 }
-
 function renderConvList() {
   const container = document.getElementById('convListContainer');
   container.innerHTML = conversations.map(c => `<div class="conv-item ${c.id === currentConvId ? 'active' : ''}" onclick="loadConversation(${c.id})"><div class="conv-row1"><div class="conv-status s-${c.status}"></div><div class="conv-name">${escapeHtml(c.name)}</div><div class="conv-time">${c.time}</div></div><div class="conv-preview">${escapeHtml(c.preview)}</div><span class="conv-dept-tag ${DEPT_PROMPTS[c.dept].cls}">${DEPT_PROMPTS[c.dept].label}</span></div>`).join('');
@@ -459,5 +477,6 @@ window.addEventListener('load',()=>{
   setInterval(()=>{ const m1=document.getElementById('m1'); if(m1 && document.getElementById('view-dashboard').classList.contains('active')){ counter++; m1.innerText=counter; } }, 9000);
 });
 </script>
+<div id="ai-mode-indicator" style="position:fixed;bottom:14px;right:14px;z-index:100;background:#132b37;color:#a4f5d6;border:1px solid #2f665d;border-radius:16px;padding:7px 13px;font:600 11px Inter,sans-serif;letter-spacing:.08em">DEMO MODE</div>
 </body>
 </html>
