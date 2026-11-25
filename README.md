@@ -10,6 +10,17 @@
 
 ---
 
+> **Implementation status (November 2026):** The GitHub Pages version is an interactive scripted demo. Live AI requires hosting the Vercel serverless endpoints and setting a server-side `ANTHROPIC_API_KEY`. No real customer records, CRM integrations, refunds, or ticket escalations are implemented. Dashboard metrics are demonstration fixtures, not measured operating results.
+
+## Secure backend setup
+
+1. Import this repository into Vercel as a new project.
+2. Set `ANTHROPIC_API_KEY` in **Project → Settings → Environment Variables** (server-side only). Optionally set `ANTHROPIC_MODEL`.
+3. Redeploy and verify `GET /api/health` reports `aiConfigured: true`.
+4. The chat client calls `POST /api/chat` on the same origin with the selected department and recent message history. A missing/unavailable backend clearly leaves the interface in **DEMO MODE**.
+
+The API validates department and message bounds, never exposes the API key to the browser, and stops slow upstream requests. This is a pilot backend: it still needs authentication, per-user rate limiting, abuse prevention, persistence and monitoring before public multi-tenant production use.
+
 ## 🧠 What is OmniDesk AI?
 
 OmniDesk AI is an intelligent, unified business communication platform that consolidates **Sales**, **Support**, **Customer Care**, and **Open Innovation** into a single AI-powered system — eliminating the cost and complexity of managing separate bots for every department.
@@ -103,7 +114,7 @@ cd omniDesk-ai
 
 **2. Add your API key**
 
-Open `index.html` and locate the fetch call to the Anthropic API. For production, replace direct API calls with a secure backend proxy to protect your key.
+Use the included `api/chat.js` endpoint on a Vercel deployment. Never place an Anthropic key in the HTML or browser JavaScript.
 
 ```js
 // For local testing only — never expose API keys in production
@@ -147,9 +158,9 @@ vercel --prod
 
 ---
 
-## 📈 Performance Metrics
+## 📈 Illustrative Demo Metrics
 
-| Metric | Result |
+| Metric | Synthetic demo value (not independently measured) |
 |---|---|
 | Resolution Rate | **91%** |
 | Avg Handle Time Reduction | **67%** |
